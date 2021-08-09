@@ -1,0 +1,27 @@
+.card-container {
+  margin: 5%;
+}
+
+.container-input {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 200px;
+}
+
+.container-spart {
+  display: flex;
+  flex-direction: row;
+  margin-left: 10%;
+
+  &_check {
+    margin-right: 5px;
+  }
+}
+
+.container-spartPart{
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 15px;
+  padding: 3px;
+}

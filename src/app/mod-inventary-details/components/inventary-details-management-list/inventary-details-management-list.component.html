@@ -1,0 +1,165 @@
+<div style="margin-top: 20px">
+  <mat-card>
+    <mat-card-header>
+      <div style="width: 100%; display: flex; margin-bottom: 10px">
+        <mat-card-title style="flex: 1">Listado de Inventarios</mat-card-title>
+        <p-button label="Nuevo" icon="pi pi-plus"
+                  [routerLink]="['/inventaryCreate']"
+                  styleClass="p-button-sm p-button-raised p-button-text"
+        ></p-button>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <p-table [value]="inventaryDetailsModel" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+               [rowsPerPageOptions]="[10,25,50]" dataKey="name"
+               [globalFilterFields]="['id','country.name','representative.name','status']">
+        <ng-template pTemplate="header">
+          <tr>
+            <th></th>
+            <th>Id</th>
+            <th>Codigo</th>
+            <th>Descripcion</th>
+            <th>Fecha de inventario</th>
+            <th>Nombre de Usuario</th>
+            <th>Opciones</th>
+          </tr>
+          <tr>
+            <th></th>
+            <th>
+              <p-columnFilter type="text" field="name"></p-columnFilter>
+            </th>
+            <th>
+              <p-columnFilter type="text" field="country.name"></p-columnFilter>
+            </th>
+            <th>
+              <p-columnFilter field="representative" matchMode="in" [showMenu]="false">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                  <p-multiSelect [ngModel]="value" [options]="inventaryModel" placeholder="Any"
+                                 (onChange)="filter($event.value)" optionLabel="name">
+                    <ng-template let-option pTemplate="item">
+                      <div class="p-multiselect-representative-option">
+                        <img [alt]="option.label" src="assets/showcase/images/demo/avatar/{{option.image}}" width="32"
+                             style="vertical-align: middle"/>
+                        <span class="p-ml-1">{{option.name}}</span>
+                      </div>
+                    </ng-template>
+                  </p-multiSelect>
+                </ng-template>
+              </p-columnFilter>
+            </th>
+            <th>
+              <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                  <p-dropdown [ngModel]="value" [options]="inventaryModel" (onChange)="filter($event.value)"
+                              placeholder="Any" [showClear]="true">
+                    <ng-template let-option pTemplate="item">
+                      <span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+                    </ng-template>
+                  </p-dropdown>
+                </ng-template>
+              </p-columnFilter>
+            </th>
+            <th>
+              <p-columnFilter field="representative" matchMode="in" [showMenu]="false">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                  <p-multiSelect [ngModel]="value" [options]="inventaryModel" placeholder="Seleciona El nombre"
+                                 (onChange)="filter($event.value)" optionLabel="name">
+                    <ng-template let-option pTemplate="item">
+                      <div class="p-multiselect-representative-option">
+                        <span class="p-ml-1">{{option.inventory.userId}}</span>
+                      </div>
+                    </ng-template>
+                  </p-multiSelect>
+                </ng-template>
+              </p-columnFilter>
+            </th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-invDet let-expanded="expanded">
+          <tr>
+            <td>
+              <button type="button" pButton pRipple [pRowToggler]="invDet.invId"
+                      class="p-button-text p-button-rounded p-button-plain"
+                      [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+            </td>
+            <td>{{invDet.inventory.id}}</td>
+            <td>{{invDet.inventory.code}}</td>
+            <td>{{invDet.inventory.description}}</td>
+            <td>{{invDet.inventory.dateInventory}}</td>
+            <td>{{invDet.inventory.userId}}</td>
+
+            <td>
+              <button pButton pRipple type="button" icon="pi pi-pencil"
+                      class="p-button-rounded p-button-text"
+              ></button>
+              <button pButton pRipple type="button" icon="pi pi-times"
+                      class="p-button-rounded p-button-text"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="rowexpansion" let-inv>
+          <p-table [value]="inventaryDetailsModel" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+                   [rowsPerPageOptions]="[10,25,50]">
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 100px">Id</th>
+                <th style="width: 100px">Repuesto Id</th>
+                <th style="width: 100px">Cantidades disponibles</th>
+                <th style="width: 100px">Cantidades de entrada</th>
+                <th style="width: 100px">Precio</th>
+                <th style="width: 100px">Opciones</th>
+              </tr>
+              <tr>
+                <th></th>
+                <th>
+                  <p-columnFilter field="representative" matchMode="in" [showMenu]="false">
+                    <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                      <p-multiSelect [ngModel]="value" [options]="inventaryModel" placeholder="Seleciona El nombre"
+                                     (onChange)="filter($event.value)" optionLabel="name">
+                        <ng-template let-option pTemplate="item">
+                          <div class="p-multiselect-representative-option">
+                            <span class="p-ml-1">{{option.spareParts.description}}</span>
+                          </div>
+                        </ng-template>
+                      </p-multiSelect>
+                    </ng-template>
+                  </p-columnFilter>
+                </th>
+                <th>
+
+                </th>
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-inv>
+              <tr>
+                <td>{{inv.detId}}</td>
+                <td>{{inv.spareParts.description}}</td>
+                <td>{{inv.detStock}}</td>
+                <td>{{inv.detInitialStock}}</td>
+                <td>{{inv.detPrice}}</td>
+                <td>
+                  <button pButton pRipple type="button" icon="pi pi-pencil"
+                          class="p-button-rounded p-button-text"
+                  ></button>
+                  <button pButton pRipple type="button" icon="pi pi-times"
+                          class="p-button-rounded p-button-text"
+                  ></button>
+                </td>
+              </tr>
+            </ng-template>
+
+          </p-table>
+        </ng-template>
+      </p-table>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+

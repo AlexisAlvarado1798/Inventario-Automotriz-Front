@@ -1,0 +1,103 @@
+<div class="card-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Crear Inventario</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <div style="display: flex; margin-top: 20px;">
+        <div class="container-input">
+          <p-fieldset legend="Inventario">
+            <label for="code">Codigo:</label>
+            <input id="code" type="text" pInputText/>
+            <label for="description">Descripcion:</label>
+            <input id="description" type="text" pInputText/>
+            <label for="date">Fecha de Inventario: </label>
+            <p-calendar id="date" inputId="icon"></p-calendar>
+            <label for="codUsu">Codigo de Usuario </label>
+            <input id="codUsu" type="text" pInputText/>
+            <label for="user">Nombre o Codigo del Usuario</label>
+            <p-dropdown id="user" placeholder="Select a City" [options]="userModel"
+                        optionLabel="userName" optionValue="spartPartsModel">
+            </p-dropdown>
+            <div class="p-field-checkbox">
+              <p-checkbox [(ngModel)]="checked" id="binary"></p-checkbox>
+              <label for="binary">{{checked ? "Repuesto" : "Automotor"}}</label>
+            </div>
+          </p-fieldset>
+        </div>
+
+        <div class="container-spart" style="flex: 1;">
+          <p-fieldset legend="Repuestos">
+            <div class="container-spartPart">
+              <label for="repuesto">Repuesto: </label>
+              <p-dropdown id="repuesto" placeholder="Select a City" [options]="spartPartsModel"
+                          optionLabel="description" optionValue="spartPartsModel">
+              </p-dropdown>
+
+              <label for="stock">Stock: </label>
+              <input id="stock" style="width: 80px" type="number" pInputText/>
+              <label for="initialStock">Stock Inicial: </label>
+              <input id="initialStock" style="width: 80px" type="number" pInputText/>
+              <label for="precie">Precio: </label>
+              <input id="precie" type="number" pInputText/>
+            </div>
+            <button pButton pRipple type="button" icon="pi pi-plus"
+                    class="p-button-rounded p-button-text"
+            ></button>
+          </p-fieldset>
+        </div>
+
+
+      </div>
+      <div style="margin-left: 372px; margin-top: -180px">
+        <p-fieldset legend="Lista de Repuestos">
+          <p-table [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+                   [rowsPerPageOptions]="[10,25,50]">
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 100px">Id</th>
+                <th style="width: 100px">Repuesto Id</th>
+                <th style="width: 100px">Cantidades disponibles</th>
+                <th style="width: 100px">Cantidades de entrada</th>
+                <th style="width: 100px">Precio</th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-inv>
+              <tr>
+                <td>
+                <td>{{inv.detId}}</td>
+                <td>{{inv.invId}}</td>
+                <td>{{inv.spaId}}</td>
+                <td>{{inv.autId}}</td>
+                <td>{{inv.detStock}}</td>
+                <td>{{inv.detInitialStock}}</td>
+                <td>{{inv.detPrice}}</td>
+                <td>
+                  <button pButton pRipple type="button" icon="pi pi-pencil"
+                          class="p-button-rounded p-button-text"
+                  ></button>
+                  <button pButton pRipple type="button" icon="pi pi-times"
+                          class="p-button-rounded p-button-text"
+                  ></button>
+                </td>
+              </tr>
+            </ng-template>
+
+          </p-table>
+        </p-fieldset>
+      </div>
+
+    </mat-card-content>
+    <mat-card-actions style="text-align: start; position: absolute">
+      <p-button label="Guardar"
+                (click)="onClickSave()"
+                style="margin-right: 5px"
+
+      ></p-button>
+      <p-button label="Cancelar"
+                styleClass="p-button-danger"></p-button>
+    </mat-card-actions>
+  </mat-card>
+</div>
